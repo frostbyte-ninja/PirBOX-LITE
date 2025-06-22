@@ -17,9 +17,9 @@ Your subscription goes a long way in backing my work. If you feel more generous,
 #### 🛒 Can be purchased in my shop http://www.PricelessToolkit.com
 
 ### ✨ Key Features:
-- Seamless integration with **Home Assistant MQTT**  
-- **LoRa-based communication** for long-range, low-power use cases  
-- Sends **( Detected** / **Cleared )** statuses to a LoRa gateway "**[CapiBridge](https://github.com/PricelessToolkit/CapiBridge) or [LilyGo LoRa Board](https://github.com/PricelessToolkit/TTGO_Gateway)**"  
+- Seamless integration with **Home Assistant MQTT**
+- **LoRa-based communication** for long-range, low-power use cases
+- Sends **( Detected** / **Cleared )** statuses to a LoRa gateway "**[CapiBridge](https://github.com/PricelessToolkit/CapiBridge) or [LilyGo LoRa Board](https://github.com/PricelessToolkit/TTGO_Gateway)**"
 - **Ultra-low power consumption**: ~11 µAh when No motion detected
 - Powered by a **250 mAh battery** for long-lasting operation
 - Perfect for remote monitoring where Wi-Fi or Zigbee range isn't enough
@@ -66,7 +66,7 @@ Measured by "Power Profiler KIT 2"
 3. Open the PirBox-Lite.ino file in Arduino IDE. "It will include all necessary files and Radio Library."
 4. In Config.h, change the sensor name, gateway key, and radio settings based on your gateway config
 
-> [!IMPORTANT]  
+> [!IMPORTANT]
 > The PirBOX LoRa module uses the sync word `0x1424`, which is equivalent to the CapiBridge's `0x12` sync word.
 
 ```cpp
@@ -137,7 +137,7 @@ Measured by "Power Profiler KIT 2"
     <td>
 
 <!-- Markdown-style table inside HTML cell -->
-  
+
 | **PirBOX** | **Programmer** |
 |------------|----------------|
 | 3.3V       | 3.3V           |
