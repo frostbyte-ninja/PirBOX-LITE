@@ -4,6 +4,7 @@
 
 #include <etl/algorithm.h>
 
+#include <aes/Aes.hpp>
 #include <arduino_hal/ArduinoHal.hpp>
 #include <sx126x/Assert.hpp>
 #include <sx126x/Sx1262.hpp>
@@ -13,6 +14,8 @@ namespace {
 constexpr auto g_gatewayKey{"xy"};
 constexpr auto g_nodeName{"PirBoxL"};
 constexpr float g_loraFrequency{868.0F};
+constexpr aes::Aes::Array
+  g_aesKey{0xC5, 0xBD, 0x18, 0x6E, 0x98, 0xBE, 0x79, 0xF3, 0xFA, 0x98, 0xE3, 0x30, 0xF7, 0x1E, 0x4E, 0x93};
 
 constexpr uint8_t g_pirSensorPin{PIN_PC0};
 constexpr uint8_t g_powerOffPin{PIN_PB0};
@@ -24,6 +27,7 @@ constexpr uint8_t g_radioBusyPin{PIN_PC2};
 
 // NOLINTBEGIN(*-avoid-non-const-global-variables)
 
+aes::Aes g_aes{g_aesKey};
 sx126x::ArduinoHal g_hal{g_radioNssPin, g_radioDio1Pin, g_radioResetPin, g_radioBusyPin};
 sx126x::Sx1262 g_lora{g_hal};
 volatile bool g_pirSensorStateChanged{true}; // send the initial state
@@ -89,20 +93,29 @@ powerControl(const bool powerOn)
 }
 
 void
+sendMessage(const char* message, const int16_t messageSize)
+{
+  byte sendBuffer[g_aes.calculateEncryptedLength(messageSize)];
+  g_aes.encrypt(reinterpret_cast<const byte*>(message), messageSize, sendBuffer);
+  g_lora.transmit(sendBuffer, sizeof(sendBuffer));
+}
+
+void
 processPirStateChange()
 {
   const int8_t motionState = digitalRead(g_pirSensorPin);
   const int battery = readBatteryPercentage();
 
-  char buffer[128];
-  if (snprintf(buffer,
-               sizeof(buffer),
-               R"({"k":"%s","id":"%s","m":"%s","b":%d})",
-               g_gatewayKey,
-               g_nodeName,
-               motionState == HIGH ? "on" : "off",
-               battery) >= 0) {
-    g_lora.transmit(buffer);
+  char message[128];
+  if (const auto messageSize = snprintf(message,
+                                        sizeof(message),
+                                        R"({"k":"%s","id":"%s","m":"%s","b":%d})",
+                                        g_gatewayKey,
+                                        g_nodeName,
+                                        motionState == HIGH ? "on" : "off",
+                                        battery);
+      messageSize >= 0) {
+    sendMessage(message, static_cast<int16_t>(messageSize));
   }
 }
 } // namespace
