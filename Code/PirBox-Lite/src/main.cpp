@@ -56,6 +56,15 @@ initLoRa()
   ASSERT_BLOCKING(g_lora.explicitHeader());
 }
 
+void
+initRandom()
+{
+  uint32_t value{0U};
+  ASSERT_BLOCKING(g_lora.randomInt(value));
+  randomSeed(value);
+  srand(value);
+}
+
 int
 readBatteryPercentage()
 {
@@ -132,6 +141,8 @@ setup()
   analogReference(INTERNAL2V5); // NOLINT(*-signed-bitwise)
 
   initLoRa();
+
+  initRandom();
 }
 
 void
