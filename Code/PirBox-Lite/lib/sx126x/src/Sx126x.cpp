@@ -698,6 +698,12 @@ Sx126x::autoLdro()
 }
 
 Result
+Sx126x::randomInt(uint32_t& value)
+{
+  return toResult(driver::sx126x_get_random_numbers(&m_hal, &value, 1U));
+}
+
+Result
 Sx126x::invertIq(const bool enable)
 {
   m_invertIqEnabled = enable;

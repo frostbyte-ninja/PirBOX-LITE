@@ -76,6 +76,7 @@ public:
   Result setRegulatorDcdc();
   Result forceLdro(bool enable);
   Result autoLdro();
+  Result randomInt(uint32_t& value);
   Result invertIq(bool enable);
   Result setPaConfig(uint8_t paDutyCycle, uint8_t deviceSel, uint8_t hpMax = 0x07U, uint8_t paLut = 0x01U);
   Result calibrateImage(float frequency);
