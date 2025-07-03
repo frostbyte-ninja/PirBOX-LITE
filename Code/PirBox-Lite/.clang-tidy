@@ -1,0 +1,159 @@
+# clang-tidy-20
+# https://releases.llvm.org/20.1.0/tools/clang/tools/extra/docs/clang-tidy/index.html
+
+---
+Checks: '
+*,
+
+# Disable checks,
+-bugprone-easily-swappable-parameters,
+-cppcoreguidelines-avoid-do-while,
+-cppcoreguidelines-owning-memory,
+-cppcoreguidelines-pro-bounds-array-to-pointer-decay,
+-cppcoreguidelines-pro-bounds-pointer-arithmetic,
+-cppcoreguidelines-pro-type-reinterpret-cast,
+-cppcoreguidelines-pro-type-union-access,
+-cppcoreguidelines-pro-type-vararg,
+-google-build-using-namespace,
+-llvm-header-guard,
+-llvm-include-order,
+-llvm-prefer-register-over-unsigned,
+-llvm-twine-local,
+-misc-header-include-cycle,
+-misc-include-cleaner,
+-modernize-avoid-c-arrays,
+-modernize-deprecated-headers,
+-modernize-use-trailing-return-type,
+-performance-avoid-endl,
+-readability-convert-member-functions-to-static,
+-readability-magic-numbers,
+
+# Disable group checks,
+-altera-*,
+-android-*,
+-darwin-*,
+-fuchsia-*,
+-linuxkernel-*,
+-llvmlibc-*,
+-objc-*,
+-zircon-*,
+
+# Disable aliases,
+-bugprone-narrowing-conversions,
+-cert-con36-c,
+-cert-con54-cpp,
+-cert-ctr56-cpp,
+-cert-dcl03-c,
+-cert-dcl16-c,
+-cert-dcl37-c,
+-cert-dcl51-cpp,
+-cert-dcl54-cpp,
+-cert-dcl59-cpp,
+-cert-err09-cpp,
+-cert-err61-cpp,
+-cert-exp42-c,
+-cert-fio38-c,
+-cert-flp37-c,
+-cert-int09-c,
+-cert-msc24-c,
+-cert-msc30-c,
+-cert-msc32-c,
+-cert-msc33-c,
+-cert-msc54-cpp,
+-cert-oop11-cpp,
+-cert-oop54-cpp,
+-cert-pos44-c,
+-cert-pos47-c,
+-cert-sig30-c,
+-cert-str34-c,
+-cppcoreguidelines-avoid-c-arrays,
+-cppcoreguidelines-avoid-magic-numbers,
+-cppcoreguidelines-c-copy-assignment-signature,
+-cppcoreguidelines-explicit-virtual-functions,
+-cppcoreguidelines-macro-to-enum,
+-cppcoreguidelines-noexcept-destructor,
+-cppcoreguidelines-noexcept-move-operations,
+-cppcoreguidelines-noexcept-swap,
+-cppcoreguidelines-non-private-member-variables-in-classes,
+-cppcoreguidelines-use-default-member-init,
+-fuchsia-header-anon-namespaces,
+-google-readability-braces-around-statements,
+-google-readability-function-size,
+-google-readability-namespace-comments,
+-hicpp-avoid-c-arrays,
+-hicpp-avoid-goto,
+-hicpp-braces-around-statements,
+-hicpp-deprecated-headers,
+-hicpp-explicit-conversions,
+-hicpp-function-size,
+-hicpp-invalid-access-moved,
+-hicpp-member-init,
+-hicpp-move-const-arg,
+-hicpp-named-parameter,
+-hicpp-new-delete-operators,
+-hicpp-no-array-decay,
+-hicpp-no-malloc,
+-hicpp-noexcept-move,
+-hicpp-special-member-functions,
+-hicpp-static-assert,
+-hicpp-undelegated-constructor,
+-hicpp-uppercase-literal-suffix,
+-hicpp-use-auto,
+-hicpp-use-emplace,
+-hicpp-use-equals-default,
+-hicpp-use-equals-delete,
+-hicpp-use-noexcept,
+-hicpp-use-nullptr,
+-hicpp-use-override,
+-hicpp-vararg,
+-llvm-else-after-return,
+-llvm-qualified-auto
+'
+
+WarningsAsErrors: '*'
+SystemHeaders: false
+CheckOptions:
+  bugprone-assert-side-effect.AssertMacros: assert,NSAssert,NSCAssert,Q_ASSERT,Q_ASSERT_X,Q_CHECK_PTR
+  bugprone-assert-side-effect.CheckFunctionCalls: true
+  bugprone-narrowing-conversions.PedanticMode: true
+  bugprone-suspicious-string-compare.WarnOnLogicalNotComparison: true
+  cppcoreguidelines-special-member-functions.AllowMissingMoveFunctions: true
+  cppcoreguidelines-special-member-functions.AllowSoleDefaultDtor: true
+  hicpp-multiway-paths-covered.WarnOnMissingElse: true
+  misc-non-private-member-variables-in-classes.IgnoreClassesWithAllMemberVariablesBeingPublic: true
+  misc-throw-by-value-catch-by-reference.WarnOnLargeObject: true
+  modernize-use-nullptr.NullMacros: NULL,Q_NULLPTR
+  readability-function-size.LineThreshold: 400
+
+  readability-identifier-naming.ClassCase: CamelCase
+  readability-identifier-naming.AbstractClassPrefix: I
+  readability-identifier-naming.StructCase: CamelCase
+  readability-identifier-naming.EnumCase: CamelCase
+  readability-identifier-naming.EnumConstantCase: CamelCase
+  readability-identifier-naming.UnionCase: CamelCase
+
+  readability-identifier-naming.EnumConstantIgnoredRegexp: '_.*' # allow _1, _500_0 etc
+  readability-identifier-naming.MemberCase: camelBack
+  readability-identifier-naming.ConstantMemberPrefix: m_
+  readability-identifier-naming.MemberPrefix: m_
+  readability-identifier-naming.ClassMemberPrefix: s_
+  readability-identifier-naming.PublicMemberPrefix: ''
+  readability-identifier-naming.PublicMemberCase: camelBack
+
+  readability-identifier-naming.VariableCase: camelBack
+  readability-identifier-naming.GlobalVariableCase: camelBack
+  readability-identifier-naming.GlobalVariablePrefix: g_
+  readability-identifier-naming.ConstantCase: camelBack
+  readability-identifier-naming.GlobalConstantCase: camelBack
+  readability-identifier-naming.GlobalConstantPrefix: g_
+
+  readability-identifier-naming.ParameterCase: camelBack
+  readability-identifier-naming.FunctionCase: camelBack
+
+  readability-identifier-naming.NamespaceCase: lower_case
+
+  readability-identifier-naming.TemplateParameterCase: CamelCase
+  readability-identifier-naming.TemplateParameterPrefix: T
+
+  readability-identifier-naming.TypeAliasCase: CamelCase
+...

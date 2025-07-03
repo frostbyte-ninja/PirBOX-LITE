@@ -1,0 +1,14 @@
+{
+  "name": "sx126x-driver",
+  "version": "0.0.0",
+  "description": "Semtech SX126x LoRa Radio Driver",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Lora-net/sx126x_driver.git"
+  },
+  "license": "BSD-3-Clause",
+  "build": {
+    "includeDir": "sx126x_driver/src",
+    "srcDir": "sx126x_driver/src"
+  }
+}
