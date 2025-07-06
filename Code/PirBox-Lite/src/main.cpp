@@ -4,8 +4,8 @@
 
 #include <etl/algorithm.h>
 
-#include <aes/Aes.hpp>
 #include <arduino_hal/ArduinoHal.hpp>
+#include <crypto/Aes.hpp>
 #include <sx126x/Assert.hpp>
 #include <sx126x/Sx1262.hpp>
 #include <sx126x/Types.hpp>
@@ -14,7 +14,7 @@ namespace {
 constexpr auto g_gatewayKey{"xy"};
 constexpr auto g_nodeName{"PirBoxL"};
 constexpr float g_loraFrequency{868.0F};
-constexpr aes::Aes::Array
+constexpr crypto::Aes::Array
   g_aesKey{0xC5, 0xBD, 0x18, 0x6E, 0x98, 0xBE, 0x79, 0xF3, 0xFA, 0x98, 0xE3, 0x30, 0xF7, 0x1E, 0x4E, 0x93};
 
 constexpr uint8_t g_pirSensorPin{PIN_PC0};
@@ -27,7 +27,7 @@ constexpr uint8_t g_radioBusyPin{PIN_PC2};
 
 // NOLINTBEGIN(*-avoid-non-const-global-variables)
 
-aes::Aes g_aes{g_aesKey};
+crypto::Aes g_aes{g_aesKey};
 sx126x::ArduinoHal g_hal{g_radioNssPin, g_radioDio1Pin, g_radioResetPin, g_radioBusyPin};
 sx126x::Sx1262 g_lora{g_hal};
 volatile bool g_pirSensorStateChanged{true}; // send the initial state

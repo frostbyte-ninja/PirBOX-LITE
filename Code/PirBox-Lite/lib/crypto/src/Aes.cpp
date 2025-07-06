@@ -1,4 +1,4 @@
-#include <aes/Aes.hpp>
+#include <crypto/Aes.hpp>
 
 #include <etl/algorithm.h>
 #include <etl/limits.h>
@@ -11,7 +11,7 @@
 #undef min
 #endif
 
-namespace aes {
+namespace crypto {
 namespace {
 void
 fillIv(Aes::Array& aesIv)
@@ -70,4 +70,4 @@ Aes::calculateEncryptedLength(const int16_t length)
 {
   return N_BLOCK + m_aesLib.get_cipher_length(length);
 }
-} // namespace aes
+} // namespace crypto

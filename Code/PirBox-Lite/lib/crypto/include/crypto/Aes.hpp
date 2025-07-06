@@ -9,7 +9,7 @@
 
 #include <AESLib.h>
 
-namespace aes {
+namespace crypto {
 class Aes
 {
 public:
@@ -26,4 +26,4 @@ private:
   AESLib m_aesLib;
   Array m_key;
 };
-} // namespace aes
+} // namespace crypto
