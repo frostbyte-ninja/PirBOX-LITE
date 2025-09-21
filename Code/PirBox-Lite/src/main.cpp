@@ -11,7 +11,7 @@
 #include <sx126x/Types.hpp>
 
 namespace {
-constexpr auto g_gatewayKey{"xy"};
+constexpr auto g_gatewayId{"xy"};
 constexpr auto g_nodeName{"PirBoxL"};
 constexpr float g_loraFrequency{868.0F};
 constexpr crypto::Aes::Array
@@ -119,7 +119,7 @@ processPirStateChange()
   if (const auto messageSize = snprintf(message,
                                         sizeof(message),
                                         R"({"k":"%s","id":"%s","m":"%s","b":%d})",
-                                        g_gatewayKey,
+                                        g_gatewayId,
                                         g_nodeName,
                                         motionState == HIGH ? "on" : "off",
                                         battery);
