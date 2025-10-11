@@ -101,6 +101,7 @@ enum class Bandwidth : uint8_t
 
 enum class CodingRate : uint8_t
 {
+  _4_4 = 0x00U, // no coding (undocumented)
   _4_5 = 0x01U,
   _4_6 = 0x02U,
   _4_7 = 0x03U,
