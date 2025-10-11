@@ -218,20 +218,19 @@ Sx126x::finishTransmit()
 }
 
 Result
-Sx126x::receive(uint8_t* const data, const size_t len)
+Sx126x::receive(uint8_t* const data, const size_t len, Time timeoutInMs)
 {
   // set mode to standby
   ASSERT(standby());
 
-  Time timeout = 0U;
-
-  // calculate timeout (100 LoRa symbols, the default for SX127x series)
-  const float symbolLength = static_cast<float>(1U << +m_spreadingFactor) / static_cast<float>(toKhz(m_bandwidth));
-  timeout = static_cast<Time>(symbolLength * 100.0F);
+  if (timeoutInMs == 0U) {
+    // calculate timeout (500 % of expected time-one-air)
+    timeoutInMs = getTimeOnAirInMs(len == 0U ? g_maxPacketLength : len) * 5U;
+  }
 
   // start reception
   // ReSharper disable once CppRedundantParentheses
-  const auto timeoutValue = static_cast<uint32_t>((static_cast<float>(timeout) * 1000.0F) / 15.625F);
+  const auto timeoutValue = static_cast<uint32_t>((static_cast<float>(timeoutInMs) * 1000.0F) / 15.625F);
   ASSERT(startReceive(timeoutValue));
 
   // wait for packet reception or timeout
@@ -240,7 +239,7 @@ Sx126x::receive(uint8_t* const data, const size_t len)
   while (m_hal.digitalRead(m_hal.irqPin()) == m_hal.gpioLevelLow()) {
     m_hal.yield();
     // safety check, the timeout should be done by the radio
-    if (m_hal.milliseconds() - start > timeout) {
+    if (m_hal.milliseconds() - start > timeoutInMs) {
       softTimeout = true;
       break;
     }
@@ -266,7 +265,7 @@ Sx126x::receive(uint8_t* const data, const size_t len)
 
 // ReSharper disable once CppDFAConstantFunctionResult
 Result
-Sx126x::receive(String& str, const size_t len)
+Sx126x::receive(String& str, const size_t len, const Time timeoutInMs)
 {
   // user can override the length of data to read
   size_t length = len;
@@ -279,7 +278,8 @@ Sx126x::receive(String& str, const size_t len)
 
   // any of the following leads to at least some data being available
   // let's leave the decision of whether to keep it or not up to the user
-  if (const auto state = receive(data.get(), length); state == Result::Ok or state == Result::CrcMismatch) {
+  if (const auto state = receive(data.get(), length, timeoutInMs);
+      state == Result::Ok or state == Result::CrcMismatch) {
     // read the number of actually received bytes (for unknown packets)
     if (len == 0) {
       length = getPacketLength();
@@ -1065,7 +1065,8 @@ Sx126x::fixImplicitTimeout()
   // see SX1262/SX1268 datasheet, chapter 15 Known Limitations, section 15.3 for details
 
   if (m_headerType != PacketLengthMode::Implicit) {
-    return Result::WrongModem;
+    // not in the correct mode, nothing to do here
+    return Result::Ok;
   }
 
   return toResult(driver::sx126x_stop_rtc(&m_hal));

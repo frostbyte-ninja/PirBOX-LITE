@@ -41,8 +41,8 @@ public:
   Result transmitDirect(uint32_t frequencyInHz = 0U);
   Result finishTransmit();
 
-  Result receive(uint8_t* data, size_t len);
-  Result receive(String& str, size_t len = 0U);
+  Result receive(uint8_t* data, size_t len, Time timeoutInMs = 0U);
+  Result receive(String& str, size_t len = 0U, Time timeoutInMs = 0U);
   Result startReceive(uint32_t timeout = g_rxTimeoutInf,
                       IrqFlags irqFlags = g_rxDefaultFlags,
                       IrqFlags irqMask = g_rxDefaultMask,
