@@ -1028,7 +1028,7 @@ Sx126x::startReceiveCommon(const uint32_t timeout, const IrqFlags irqFlags, IrqF
   ASSERT(setBufferBaseAddress());
 
   // clear interrupt flags
-  clearIrqStatus();
+  ASSERT(clearIrqStatus());
 
   // restore original packet length
   ASSERT(setPacketParams(m_preambleLength, m_crcEnabled, m_implicitLen, m_headerType, m_invertIqEnabled));
