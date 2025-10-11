@@ -25,6 +25,7 @@ Checks: '
 -modernize-deprecated-headers,
 -modernize-use-trailing-return-type,
 -performance-avoid-endl,
+-portability-avoid-pragma-once,
 -readability-convert-member-functions-to-static,
 -readability-magic-numbers,
 
