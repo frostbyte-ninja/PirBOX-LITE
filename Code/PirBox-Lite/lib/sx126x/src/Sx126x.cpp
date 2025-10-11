@@ -255,16 +255,9 @@ Sx126x::receive(uint8_t* const data, const size_t len)
   IrqFlags irqFlags{};
   ASSERT(getIrqFlags(&irqFlags));
 
-  if (hasFlag(irqFlags, IrqFlags::Timeout) or softTimeout) {
-    standby();
-    fixImplicitTimeout();
-    clearIrqStatus();
+  if (softTimeout or hasFlag(irqFlags, IrqFlags::Timeout)) {
+    finishReceive();
     return Result::RxTimeout;
-  }
-
-  // fix timeout in implicit LoRa mode
-  if (m_headerType == PacketLengthMode::Implicit) {
-    ASSERT(fixImplicitTimeout());
   }
 
   // read the received data
@@ -395,6 +388,22 @@ Sx126x::readData(String& str, const size_t len)
   }
 
   return state;
+}
+
+Result
+Sx126x::finishReceive()
+{
+  // set mode to standby to disable RF switch
+  ASSERT(standby());
+
+  // try to fix timeout error in implicit header mode
+  // check for modem type and header mode is done in fixImplicitTimeout()
+  ASSERT(fixImplicitTimeout());
+
+  // clear interrupt flags
+  ASSERT(clearIrqStatus());
+
+  return Result::Ok;
 }
 
 Result

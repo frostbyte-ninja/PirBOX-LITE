@@ -49,6 +49,7 @@ public:
                       size_t len = 0U);
   Result readData(uint8_t* data, size_t len);
   Result readData(String& str, size_t len = 0U);
+  Result finishReceive();
 
   Result stageMode(RadioMode mode, const RadioModeConfig& cfg);
   Result launchMode();
