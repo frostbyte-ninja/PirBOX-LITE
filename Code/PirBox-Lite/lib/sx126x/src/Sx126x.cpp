@@ -943,13 +943,11 @@ Sx126x::modSetup(const TcxoVoltage tcxoVoltage, const bool useRegulatorLdo) // N
   m_hal.pinMode(m_hal.busyPin(), m_hal.gpioModeInput());
   // todo implement: parseStatusCb = SPIparseStatus;
 
+  // find the SX126x chip - this will also reset the module and verify the module
   if (not verifyChip()) {
     m_hal.term();
     return Result::ChipNotFound;
   }
-
-  ASSERT(reset());
-  ASSERT(standby());
 
   if (tcxoVoltage != TcxoVoltage::_0V) {
     ASSERT(setTcxo(tcxoVoltage));
@@ -1006,7 +1004,7 @@ bool
 Sx126x::verifyChip()
 {
   for (size_t index{0U}; index < 10U; ++index) {
-    reset();
+    reset(true);
 
     char version[16]{};
     driver::sx126x_read_register(
