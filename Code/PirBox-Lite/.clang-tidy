@@ -18,6 +18,7 @@ Checks: '
 -llvm-header-guard,
 -llvm-include-order,
 -llvm-prefer-register-over-unsigned,
+-llvm-prefer-static-over-anonymous-namespace,
 -llvm-twine-local,
 -misc-header-include-cycle,
 -misc-include-cleaner,
