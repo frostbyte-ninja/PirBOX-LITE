@@ -13,7 +13,7 @@ namespace crypto {
 class Aes
 {
 public:
-  using Array = etl::array<byte, N_BLOCK>;
+  using Array = etl::array<byte, 16>;
 
   explicit Aes(const Array& key, paddingMode paddingMode = paddingMode::CMS) noexcept;
   uint16_t encrypt(const byte* input, uint16_t length, byte* output);

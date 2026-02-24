@@ -36,7 +36,8 @@ Aes::encrypt(const byte* input, const uint16_t length, byte* const output)
   fillIv(aesIv);
   memcpy(output, aesIv.data(), aesIv.size());
 
-  return m_aesLib.encrypt(input, length, output + aesIv.size(), m_key.data(), sizeof(m_key), aesIv.data()) +
+  return m_aesLib.encrypt(
+           input, length, output + aesIv.size(), m_key.data(), static_cast<int>(m_key.size()), aesIv.data()) +
          aesIv.size();
 }
 
@@ -56,7 +57,7 @@ Aes::decrypt(byte* const input, const uint16_t length, byte* const output)
   memcpy(aesIv.data(), input, aesIv.size());
 
   return m_aesLib.decrypt(
-    input + aesIv.size(), length - aesIv.size(), output, m_key.data(), sizeof(m_key), aesIv.data());
+    input + aesIv.size(), length - aesIv.size(), output, m_key.data(), static_cast<int>(m_key.size()), aesIv.data());
 }
 
 uint16_t
