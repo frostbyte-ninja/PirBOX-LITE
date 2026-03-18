@@ -136,7 +136,7 @@ setup()
   powerControl(true);
 
   pinMode(g_pirSensorPin, INPUT);
-  attachInterrupt(digitalPinToInterrupt(g_pirSensorPin), pirStateChanged, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(g_pirSensorPin), pirStateChanged, RISING);
 
   analogReference(INTERNAL2V5); // NOLINT(*-signed-bitwise)
 
